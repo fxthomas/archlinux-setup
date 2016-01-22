@@ -1,0 +1,28 @@
+pkgname=libzbxpgsql
+pkgver=0.2.1
+pkgrel=1
+pkgdesc="PostgreSQL monitoring for Zabbix"
+arch=('i686' 'x86_64')
+url="http://cavaliercoder.com/libzbxpgsql"
+license=('GPLv2')
+source=(
+  "http://downloads.sourceforge.net/project/libzbxpgsl/sources/libzbxpgsql-${pkgver}.tar.gz"
+)
+
+build() {
+	cd $srcdir/libzbxpgsql-$pkgver
+  ./configure \
+    --prefix=/usr \
+    --bindir=/usr/bin \
+    --sbindir=/usr/bin \
+    --libdir=/usr/lib/modules
+  make
+}
+
+package() {
+	cd $srcdir/libzbxpgsql-$pkgver
+	make DESTDIR=$pkgdir install
+}
+
+md5sums=('0fa2de5d0fc79810d83c14e1aafb2ed9')
+sha1sums=('b430ef7b09108fbde3aa0379b34fc581a58dbb09')
