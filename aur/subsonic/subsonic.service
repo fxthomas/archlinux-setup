@@ -1,0 +1,11 @@
+[Unit]
+Description=Subsonic
+After=network.target
+
+[Service]
+User=subsonic
+ExecStart=/var/lib/subsonic/subsonic.sh
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
