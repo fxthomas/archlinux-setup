@@ -4,7 +4,7 @@
 # Contributors: Nrm
 
 pkgname=subsonic
-pkgver=5.3
+pkgver=6.0.beta1
 pkgrel=1
 pkgdesc="A free, web-based media streamer and jukebox."
 arch=('any')
@@ -12,7 +12,7 @@ url="http://subsonic.org/"
 license=('GPL')
 depends=('java-runtime-headless')
 conflicts=('subsonic')
-source=(http://prdownloads.sourceforge.net/subsonic/subsonic-${pkgver}-standalone.tar.gz
+source=(http://subsonic.org/download/subsonic-${pkgver}-standalone.tar.gz
 	    'subsonic.service')
 backup=(
   'var/lib/subsonic/db'
@@ -38,5 +38,5 @@ package() {
   chmod +x $pkgdir/var/lib/subsonic/subsonic.sh
 }
 
-md5sums=('c3f66d64565f76fd01b5f81caba91b3b'
+md5sums=('a40cd008ecaf6f6df40b469504a08725'
          'e7cb21f9ff2156db4a463b2cdd623cb6')
