@@ -32,7 +32,7 @@ package() {
   sed -i 's/^${JAVA} /exec \0/'      subsonic.sh
   sed -i '/Write pid to pidfile/,$d' subsonic.sh
   cp  * $pkgdir/var/lib/subsonic
-  rm $pkgdir/var/lib/subsonic/{subsonic.bat,subsonic-${pkgver}-standalone.tar.gz}
+  rm $pkgdir/var/lib/subsonic/{subsonic.bat,subsonic-*-standalone.tar.gz}
   ln -fs /var/lib/subsonic/subsonic.sh $pkgdir/etc/subsonic.conf
   cp $srcdir/subsonic.service $pkgdir/usr/lib/systemd/system
   chmod +x $pkgdir/var/lib/subsonic/subsonic.sh
