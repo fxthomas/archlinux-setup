@@ -1,0 +1,12 @@
+[Unit]
+Description=Backup of root snapshots
+After=snapper-timeline.service
+Before=snapper-cleanup.service
+
+[Service]
+Type=simple
+ExecStart=/usr/lib/systemd/system/snapper-backup.py /.snapshots /tank/Backups
+
+[Install]
+WantedBy=snapper-timeline.service
+WantedBy=snapper-cleanup.service
