@@ -1,7 +1,6 @@
 [Unit]
 Description=Traffic shaping on interface %I
-Wants=network.target
-After=network.target
+After=network-online.target
 
 [Service]
 Type=oneshot
@@ -9,4 +8,4 @@ ExecStart=/usr/lib/systemd/system/shaper@.sh %I up
 ExecStop=/usr/lib/systemd/system/shaper@.sh %I down
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=network-online.target

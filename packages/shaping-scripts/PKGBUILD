@@ -1,6 +1,6 @@
 pkgname=shaping-scripts
 pkgver=0.1
-pkgrel=2
+pkgrel=3
 pkgdesc="Traffic shaping scripts and service"
 arch=('i686' 'x86_64')
 depends=('iproute2' 'iptables' 'python')
@@ -15,6 +15,6 @@ package() {
 }
 
 md5sums=('9fc0bbdbd26332ded305c3b337415c97'
-         '2a27a79f87fd86f76b2c47c27174b43e'
+         '24a2139194cb51eaf96f5596dbdbfb0a'
          '4694eed089faa7aa654573b7e24f844a'
          'c4e0ab28a3178cbe2d9664d03384c23b')
