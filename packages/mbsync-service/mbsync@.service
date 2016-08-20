@@ -1,0 +1,11 @@
+[Unit]
+Description=Mailbox synchronization service for user %I
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/mbsync -Va
+User=%i
+StandardOutput=syslog
+StandardError=syslog
