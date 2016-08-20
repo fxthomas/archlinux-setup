@@ -1,0 +1,12 @@
+[Unit]
+Description=Traffic shaping on interface %I
+Wants=network.target
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/etc/systemd/system/shaper@.sh %I up
+ExecStop=/etc/systemd/system/shaper@.sh %I down
+
+[Install]
+WantedBy=multi-user.target

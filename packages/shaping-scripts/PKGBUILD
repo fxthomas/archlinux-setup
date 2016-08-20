@@ -1,0 +1,20 @@
+pkgname=shaping-scripts
+pkgver=0.1
+pkgrel=1
+pkgdesc="Traffic shaping scripts and service"
+arch=('i686' 'x86_64')
+depends=('iproute2' 'iptables' 'python')
+source=('shaper@.sh' 'shaper@.service' 'tc_cls' 'tstat')
+backup=('etc/tc_cls')
+
+package() {
+  install -Dm 0644 -t $pkgdir/etc $srcdir/tc_cls
+  install -Dm 0755 -t $pkgdir/usr/bin $srcdir/tstat
+  install -Dm 0755 -t $pkgdir/usr/lib/systemd/system $srcdir/shaper@.sh
+  install -Dm 0644 -t $pkgdir/usr/lib/systemd/system $srcdir/shaper@.service
+}
+
+md5sums=('9fc0bbdbd26332ded305c3b337415c97'
+         '34bf95458c895799df38f11df97bce01'
+         '4694eed089faa7aa654573b7e24f844a'
+         'c4e0ab28a3178cbe2d9664d03384c23b')

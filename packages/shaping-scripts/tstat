@@ -1,0 +1,155 @@
+#!/usr/bin/python
+# coding=utf-8
+
+# Base Python File (lld-tc.py)
+# Created: Tue 25 Aug 2015 05:53:47 PM CEST
+# Version: 1.0
+#
+# This Python script was developped by François-Xavier Thomas.
+# You are free to copy, adapt or modify it.
+#
+# (ɔ) François-Xavier Thomas <fx.thomas@gmail.com>
+
+
+import subprocess as sp
+import re
+import os
+from textwrap import dedent
+
+
+# Regular expression for determining the type, name and handle of a given class
+TC_CLASSTYPE = re.compile("""
+  class\ (?P<class_type>\w+)                                              # Class type
+  (?:\ (?P<class_name>[\w:]+)\#)?(?P<class_handle>[\w:]+)                 # Name and handle
+  (?:\ (?P<root>root))?                                                   # Is this a root class?
+  (?:\ parent\ (?:(?P<parent_name>[\w:]+)\#)?(?P<parent_handle>[\w:]+))?  # Parent class
+  (?:\ (?P<leaf>leaf))?                                                   # Is this a leaf class?
+""", re.VERBOSE)
+
+# Full regular expression for each class type
+TC_CLASSRE = {k: [re.compile(l) for l in v] for k, v in {
+
+    'htb': [
+       "class htb .*",
+       "Sent (?P<sent_bytes>\d+) bytes (?P<sent_pkts>\d+) pkt \(dropped (?P<dropped>\d+), overlimits (?P<overlimits>\d+) requeues (?P<requeues>\d+)\)",
+       "rate (?P<rate_bps>\d+)bit (?P<rate_pps>\d+)pps backlog (?P<backlog_bytes>\d+)b (?P<backlog_pkts>\d+)p requeues (?P<backlog_requeues>\d+)",
+       "lended: (?P<lended>\d+) borrowed: (?P<borrowed>\d+) giants: (?P<giants>\d+)",
+       "tokens: (?P<tokens>[-\d]+) ctokens: (?P<ctokens>[-\d]+)",
+    ],
+
+    'sfq': [
+       "class sfq .*",
+       "\(dropped (?P<dropped>\d+), overlimits (?P<overlimits>\d+) requeues (?P<requeues>\d+)\)",
+       "backlog (?P<backlog_bytes>\d+)b (?P<backlog_pkts>\d+)p requeues (?P<backlog_requeues>\d+)",
+       "allot (?P<allot>\d+)",
+    ]
+
+}.items()}
+
+
+class QDiscStat(object):
+    def __init__(self, data, interface):
+
+        # Retrieve class name, type and handle
+        self.interface = interface
+        self.data = data
+        m = TC_CLASSTYPE.match(self.data)
+        if not m:
+            raise ValueError("data does not match expected output")
+        self.class_type = m.group("class_type")
+        self.class_name = m.group("class_name")
+        self.class_handle = m.group("class_handle")
+        self.parent_name = m.group("parent_name")
+        self.parent_handle = m.group("parent_handle")
+        self.leaf = bool(m.group("leaf"))
+        self.root = bool(m.group("root"))
+
+        # If the class type has a full re, run it
+        self.values = {}
+        classre = TC_CLASSRE.get(self.class_type, [])
+        for cre, line in zip(classre, self.data.split("\n")):
+            m = cre.match(line.strip())
+            if not m:
+                continue
+            for key, value in m.groupdict().items():
+                try:
+                    self.values[key] = int(value)
+                except:
+                    self.values[key] = value
+
+    def __repr__(self):
+        return "<%s: %s %s)>" % (
+            self.interface, self.class_type,
+            self.class_name or self.class_handle)
+
+    def __getattr__(self, key):
+        return self.values.get(key)
+
+    @classmethod
+    def retrieve(self, interface=None):
+        """Retrieve class statistics using the 'tc' command"""
+
+        # If the 'interface' parameter is specified, retrieve statistics for the
+        # given interface ; otherwise, use all available interfaces.
+        interfaces = [interface] if interface else os.listdir("/sys/class/net/")
+        for interface in interfaces:
+
+            # Run the 'tc' command for the selected interface
+            tcstat = sp.check_output([
+                "tc",             # The 'tc' command from iproute2
+                "-name",          # Show class names from /etc/iproute2/tc_cls
+                "-s",             # Turn on statistics display
+                "class", "ls",    # Display classes...
+                "dev", interface  # ...for the selected network interface
+            ]).decode("utf-8")
+
+            # Parse each non-empty tc stats block (separated by 2 newlines) into
+            # QDiscStat objects for later processing.
+            for stat in tcstat.split("\n\n"):
+                stat = stat.strip()
+                if not stat:
+                    continue
+                yield QDiscStat(stat, interface)
+
+if __name__ == '__main__':
+
+    import argparse
+    import sys
+    import json
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("classes", help="classes to display", nargs="*")
+    parser.add_argument("--lld", help="Zabbix low-level discovery", action="store_true")
+    parser.add_argument("--interface", "-i", help="network interface to use", default=None)
+    parser.add_argument("--raw", "-r", help="print raw sent bytes", action="store_true")
+    args = parser.parse_args()
+
+    if args.lld:
+        lld_data = []
+
+    for stat in QDiscStat.retrieve(interface=args.interface):
+        if stat.class_type != 'htb':
+            continue
+        if args.classes and stat.class_name not in args.classes:
+            continue
+        if args.lld:
+            lld_data.append({
+                "{#IFACE}": stat.interface,
+                "{#CTYPE}": stat.class_type,
+                "{#CNAME}": stat.class_name,
+                "{#CHANDLE}": stat.class_handle,
+                "{#LEAF}": str(int(stat.leaf)),
+                "{#ROOT}": str(int(stat.root)),
+            })
+        elif args.raw:
+            print(stat.sent_bytes)
+            break
+        else:
+            print("%s %s %s" % (
+                stat.class_type,
+                stat.class_name or stat.class_handle,
+                stat.sent_bytes
+            ))
+
+    if args.lld:
+        print(json.dumps({"data": lld_data}))
