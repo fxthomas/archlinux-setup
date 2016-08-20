@@ -1,13 +1,13 @@
 pkgname=mbsync-service
 pkgver=0.1
-pkgrel=1
+pkgrel=2
 pkgdesc="User mailbox synchronization service"
 arch=('i686' 'x86_64')
 depends=('isync')
 source=('mbsync@.timer' 'mbsync@.service')
 
 package() {
-  install -Dm 0755 -t $pkgdir/usr/lib/systemd/system $srcdir/mbsync@.timer
+  install -Dm 0644 -t $pkgdir/usr/lib/systemd/system $srcdir/mbsync@.timer
   install -Dm 0644 -t $pkgdir/usr/lib/systemd/system $srcdir/mbsync@.service
 }
 
