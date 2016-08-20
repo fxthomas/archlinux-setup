@@ -6,6 +6,7 @@ After=network-online.target
 Type=oneshot
 ExecStart=/usr/lib/systemd/system/shaper@.sh %I up
 ExecStop=/usr/lib/systemd/system/shaper@.sh %I down
+RemainAfterExit=yes
 
 [Install]
 WantedBy=network-online.target

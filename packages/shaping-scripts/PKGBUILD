@@ -1,6 +1,6 @@
 pkgname=shaping-scripts
 pkgver=0.1
-pkgrel=3
+pkgrel=4
 pkgdesc="Traffic shaping scripts and service"
 arch=('i686' 'x86_64')
 depends=('iproute2' 'iptables' 'python')
@@ -14,7 +14,7 @@ package() {
   install -Dm 0644 -t $pkgdir/usr/lib/systemd/system $srcdir/shaper@.service
 }
 
-md5sums=('9fc0bbdbd26332ded305c3b337415c97'
-         '24a2139194cb51eaf96f5596dbdbfb0a'
+md5sums=('523f866e9df1ceb41787bed0bfb1d13c'
+         '2b718b67430a51f0764ad5ae21932ff8'
          '4694eed089faa7aa654573b7e24f844a'
          'c4e0ab28a3178cbe2d9664d03384c23b')

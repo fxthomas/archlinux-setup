@@ -112,6 +112,8 @@ function create_class() {
 # traffic shaping for this interface.
 if [[ $IFSTATUS == "up" ]]; then
 
+  echo "Enabling traffic shaping on $IFNAME..."
+
   # Make sure forwarding is enabled
   echo "Enabling forwarding on interface $IFNAME..."
   sysctl net.ipv4.ip_forward=1
@@ -211,13 +213,16 @@ if [[ $IFSTATUS == "up" ]]; then
   #trace -p udp --sport 4500
   #trace -p udp --sport 500
 
+  echo "Done, traffic shaping is enabled on $IFNAME."
+
 # If the interface is being brought down, clear all traffic shaping rules.
 elif [[ $IFSTATUS == "down" ]]; then
+  echo "Disabling traffic shaping on $IFNAME..."
   echo "Clearing root qdisc..."
   tc qdisc del dev $IFNAME root 2> /dev/null
   echo "Clearing shaping tables..."
   ip64tables_clear
-
+  echo "Done, traffic shaping is disabled on $IFNAME."
 
 # If the status is anything else, exit with an error.
 else
