@@ -5,8 +5,8 @@ After=network.target
 
 [Service]
 Type=oneshot
-ExecStart=/etc/systemd/system/shaper@.sh %I up
-ExecStop=/etc/systemd/system/shaper@.sh %I down
+ExecStart=/usr/lib/systemd/system/shaper@.sh %I up
+ExecStop=/usr/lib/systemd/system/shaper@.sh %I down
 
 [Install]
 WantedBy=multi-user.target
