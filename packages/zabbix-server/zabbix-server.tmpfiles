@@ -1,2 +1,1 @@
 d /run/zabbix 0755 zabbix zabbix -
-d /run/zabbix/tmp 0750 zabbix zabbix -
