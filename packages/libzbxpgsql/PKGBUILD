@@ -1,21 +1,24 @@
 pkgname=libzbxpgsql
-pkgver=0.2.1
+pkgver=1.0.0
 pkgrel=1
 pkgdesc="PostgreSQL monitoring for Zabbix"
 arch=('i686' 'x86_64')
 url="http://cavaliercoder.com/libzbxpgsql"
 license=('GPLv2')
+depends=('zabbix-headers' 'zabbix-server')
 source=(
-  "http://downloads.sourceforge.net/project/libzbxpgsl/sources/libzbxpgsql-${pkgver}.tar.gz"
+  "https://github.com/cavaliercoder/libzbxpgsql/archive/v${pkgver}.tar.gz"
 )
 
 build() {
 	cd $srcdir/libzbxpgsql-$pkgver
+  ./autogen.sh
   ./configure \
+    --with-zabbix=/usr/include/zabbix \
     --prefix=/usr \
     --bindir=/usr/bin \
     --sbindir=/usr/bin \
-    --libdir=/usr/lib/modules
+    --libdir=/usr/lib/zabbix/modules
   make
 }
 
@@ -24,5 +27,5 @@ package() {
 	make DESTDIR=$pkgdir install
 }
 
-md5sums=('0fa2de5d0fc79810d83c14e1aafb2ed9')
-sha1sums=('b430ef7b09108fbde3aa0379b34fc581a58dbb09')
+md5sums=('3eaa21606b0a9470cacfb976f1efdb9c')
+sha1sums=('4f8f66668d1ae9cbf8c2e1aef91cf21221b1912c')
