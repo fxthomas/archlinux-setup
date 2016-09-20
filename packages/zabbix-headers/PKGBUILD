@@ -4,7 +4,7 @@
 # Contributor: karol_007 <karol.blazewicz@gmail.com>
 
 pkgname=zabbix-headers
-pkgver=3.0.4
+pkgver=3.2.0
 pkgrel=1
 pkgdesc="Header files for Zabbix"
 arch=('i686' 'x86_64')
@@ -16,5 +16,5 @@ package() {
 	install -D -m0644 -t $pkgdir/usr/include/zabbix $srcdir/zabbix-$pkgver/include/*.h
 }
 
-md5sums=('a164b27ef80221429fc9a39eab0b7b9c')
-sha1sums=('6ef79266e10f561801d4bf4895557c720cb5feb6')
+md5sums=('e2491b482868059f251902d5f636eacb')
+sha1sums=('69ffd8356696a6356a3a5de00e32e7ff5b0896da')
