@@ -49,7 +49,7 @@ for name in missing:
     cmd_send = ["btrfs", "send", src_path]
     for path in common:
         cmd_send += ["-c", os.path.join(args.src, path, "snapshot")]
-    cmd_recv = ["btrfs", "receive", args.dst]
+    cmd_recv = ["ionice", "-c", "3", "btrfs", "receive", args.dst]
 
     try:
         proc_send = subprocess.Popen(cmd_send, stdout=subprocess.PIPE)
