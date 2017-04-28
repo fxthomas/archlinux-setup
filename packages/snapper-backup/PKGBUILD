@@ -1,6 +1,6 @@
 pkgname=snapper-backup
-pkgver=0.1
-pkgrel=3
+pkgver=0.2
+pkgrel=1
 pkgdesc="Snapper backup scripts using Btrfs send/receive"
 arch=('i686' 'x86_64')
 depends=('btrfs-progs' 'python')
@@ -11,5 +11,5 @@ package() {
   install -Dm 0644 -t $pkgdir/usr/lib/systemd/system $srcdir/snapper-backup.service
 }
 
-md5sums=('6244f7a2bfc88c215dc970b2f5d87b12'
+md5sums=('def3bd65e55efc70e70b0ba8986fe2ac'
          '38dfb93fd8e1dc5f3ba3db43b9384a80')
