@@ -1,7 +1,7 @@
 [Unit]
 Description=Backup of root snapshots
 After=snapper-timeline.service
-Before=snapper-cleanup.service
+After=snapper-cleanup.service
 
 [Service]
 Type=simple

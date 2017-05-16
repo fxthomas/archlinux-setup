@@ -79,9 +79,6 @@ def snap_send_receive(common, src_path, dst_path):
     if args.dry_run:
         return
 
-    # Copy snapshot metadata
-    shutil.copy(os.path.join(src_path, "info.xml"), os.path.join(dst_path, "info.xml"))
-
     # Send a snapper snapshot (e.g. 241/snapshot) to the destination directory
     # (241/). The snapshot will appear as a subvolume with the same name as the
     # source.
@@ -98,12 +95,18 @@ def snap_send_receive(common, src_path, dst_path):
     # Open with processes and wait for completion
     proc_send = subprocess.Popen(cmd_send, stdout=subprocess.PIPE)
     proc_recv = subprocess.Popen(cmd_recv, stdin=proc_send.stdout)
-    ret_send = proc_send.wait()
-    ret_recv = proc_recv.wait()
-    if ret_send > 0:
+    while proc_recv.returncode is None and proc_send.returncode is None:
+        try:
+            proc_recv.wait(1) and proc_send.wait(1)
+        except subprocess.TimeoutExpired:
+            pass
+    if proc_send.wait() > 0:
         raise Exception("The `btrfs send` process exited with code %d" % ret_send)
-    if ret_recv > 0:
+    if proc_recv.wait() > 0:
         raise Exception("The `btrfs receive` process exited with code %d" % ret_recv)
+
+    # Copy snapshot metadata
+    shutil.copy(os.path.join(src_path, "info.xml"), os.path.join(dst_path, "info.xml"))
 
 # Determine what we have to transfer, as well as what we need to cleanup
 src_names = os.listdir(args.src)
@@ -160,9 +163,13 @@ for name in sorted(missing, key=lambda n: dates[n]):
             os.mkdir(dst_path)
     except FileExistsError:
         continue
-    snap_send_receive(
-        [os.path.join(args.src, path, "snapshot") for path in common],
-        src_path, dst_path)
+    try:
+        snap_send_receive(
+            [os.path.join(args.src, path, "snapshot") for path in common],
+            src_path, dst_path)
+    except:
+        snap_cleanup(dst_path)  # Try to clean things up on errors
+        raise
     common.add(name)
 
 if obsolete:
