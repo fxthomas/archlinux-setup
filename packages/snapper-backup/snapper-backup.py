@@ -85,9 +85,10 @@ def snap_send_receive(common, src_path, dst_path):
 
     # Build the command-line
     src_subvolume_path = os.path.join(src_path, "snapshot")
-    cmd_send = ["ionice", "-c", "3", "btrfs", "send", "-v", src_subvolume_path]
+    cmd_send = ["ionice", "-c", "3", "btrfs", "send", "-v"]
     for subvolume_path in common:
         cmd_send += ["-c", subvolume_path]
+    cmd_send += [src_subvolume_path]
     cmd_recv = ["ionice", "-c", "3", "btrfs", "receive", "-v", dst_path]
     print("Send: %s" % subprocess.list2cmdline(cmd_send))
     print("Recv: %s" % subprocess.list2cmdline(cmd_recv))
@@ -101,9 +102,9 @@ def snap_send_receive(common, src_path, dst_path):
         except subprocess.TimeoutExpired:
             pass
     if proc_send.wait() > 0:
-        raise Exception("The `btrfs send` process exited with code %d" % ret_send)
+        raise Exception("The `btrfs send` process exited with code %d" % proc_send.wait())
     if proc_recv.wait() > 0:
-        raise Exception("The `btrfs receive` process exited with code %d" % ret_recv)
+        raise Exception("The `btrfs receive` process exited with code %d" % proc_recv.wait())
 
     # Copy snapshot metadata
     shutil.copy(os.path.join(src_path, "info.xml"), os.path.join(dst_path, "info.xml"))
