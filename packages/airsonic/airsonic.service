@@ -1,0 +1,35 @@
+[Unit]
+Description=Airsonic Media Server
+After=remote-fs.target network.target
+AssertPathExists=/var/lib/airsonic
+
+[Service]
+Type=simple
+Environment="JAVA_JAR=/var/lib/airsonic/airsonic.war"
+Environment="JAVA_OPTS=-Xmx256m"
+Environment="AIRSONIC_HOME=/var/lib/airsonic"
+Environment="AIRSONIC_DEFAULT_MUSIC_FOLDER=/var/lib/airsonic/music"
+Environment="AIRSONIC_DEFAULT_PODCAST_FOLDER=/var/lib/airsonic/podcasts"
+Environment="AIRSONIC_DEFAULT_PLAYLIST_FOLDER=/var/lib/airsonic/playlists"
+Environment="HOST=127.0.0.1"
+Environment="PORT=8080"
+Environment="CONTEXT_PATH=/airsonic"
+Environment="JAVA_ARGS="
+EnvironmentFile=-/etc/default/airsonic
+ExecStart=/usr/bin/java \
+          $JAVA_OPTS \
+          -Dairsonic.home=${AIRSONIC_HOME} \
+          -Dairsonic.defaultMusicFolder=${AIRSONIC_DEFAULT_MUSIC_FOLDER} \
+          -Dairsonic.defaultPodcastFolder=${AIRSONIC_DEFAULT_PODCAST_FOLDER} \
+          -Dairsonic.defaultPlaylistFolder=${AIRSONIC_DEFAULT_PLAYLIST_FOLDER} \
+          -Dserver.context-path=${CONTEXT_PATH} \
+          -Dserver.address=${HOST} \
+          -Dserver.port=${PORT} \
+          -Djava.awt.headless=true \
+          -jar ${JAVA_JAR} $JAVA_ARGS
+User=airsonic
+Group=airsonic
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

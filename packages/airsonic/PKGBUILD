@@ -1,0 +1,30 @@
+# Maintainer: Federico Giuliani <federico.giuliani86 at gmail dot com>
+
+pkgname=airsonic
+pkgver=10.0.1
+pkgrel=1
+pkgdesc="A free, web-based media streamer and jukebox."
+arch=('any')
+url="https://github.com/Airsonic/airsonic/"
+license=('GPL3')
+depends=('java-runtime-headless')
+conflicts=('subsonic' 'subsonic-kang' 'subsonic-kang-git' 'subsonic-beta' 'libresonic')
+backup=('etc/default/airsonic')
+noextract=(airsonic.war)
+install=$pkgname.install
+source=(https://github.com/airsonic/airsonic/releases/download/v${pkgver}/airsonic.war
+        'airsonic.default'
+        'airsonic.service')
+
+package() {
+  mkdir -p "$pkgdir/var/lib/airsonic/playlists"
+  mkdir -p "$pkgdir/var/lib/airsonic/podcasts"
+  mkdir -p "$pkgdir/var/lib/airsonic/music"
+  install -Dm644 "$srcdir/airsonic.war" "$pkgdir/var/lib/airsonic"
+  install -Dm644 "$srcdir/airsonic.default" "$pkgdir/etc/default/airsonic"
+  install -Dm644 "$srcdir/airsonic.service" "$pkgdir/usr/lib/systemd/system/airsonic.service"
+}
+
+sha256sums=('8c2eaf42437a946f240359e0fbc69e1f82785eb173470082710088447e437ee2'
+            '4eba7a9eb20f9e1e6726349cf453d22368a12060b5e9fa169de94f72455b8529'
+            '382e5fa4ff77de31be0ef7052f73610883c5cb8ea962731193a2f91f5a546656')
