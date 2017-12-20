@@ -1,0 +1,6 @@
+[submodule "packages/aic94xx-firmware"]
+	path = packages/aic94xx-firmware
+	url = https://aur.archlinux.org/aic94xx-firmware.git
+[submodule "packages/wd719x-firmware"]
+	path = packages/wd719x-firmware
+	url = https://aur.archlinux.org/wd719x-firmware.git
