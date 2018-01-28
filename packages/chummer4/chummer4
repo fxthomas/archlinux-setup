@@ -5,7 +5,17 @@ export WINEPREFIX="$HOME/.chummer4/wine"
 if [ ! -d "$HOME"/.chummer4 ]; then
   echo "Installing .NET 4.0..."
   winetricks -q dotnet40
+
+  echo "Linking app data..."
+  mkdir -p "$/HOME/.chummer4/data"
+  mkdir -p "$HOME/.chummer4/data/settings"
+  ln -s "/usr/share/chummer4/Chummer.exe" "$HOME/.chummer4/data/Chummer.exe"
+  ln -s "/usr/share/chummer4/data" "$HOME/.chummer4/data/data"
+  ln -s "/usr/share/chummer4/export" "$HOME/.chummer4/data/export"
+  ln -s "/usr/share/chummer4/lang" "$HOME/.chummer4/data/lang"
+  ln -s "/usr/share/chummer4/saves" "$HOME/.chummer4/data/saves"
+  ln -s "/usr/share/chummer4/sheets" "$HOME/.chummer4/data/sheets"
 fi
 
 cd "$HOME"
-exec wine /usr/share/chummer4/Chummer.exe
+exec wine "$HOME/.chummer4/data/Chummer.exe"
