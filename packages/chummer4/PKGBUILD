@@ -1,0 +1,34 @@
+# Maintainer: François-Xavier Thomas <fx (dot) thomas (at) gmail.com>
+pkgname=chummer4
+pkgver=490
+pkgrel=1
+pkgdesc="Character generator for Shadowrun 4th Edition"
+arch=(i686 x86_64)
+url="http://www.chummergen.com"
+license=('Closed-source')
+depends=()
+depends=(wine winetricks)
+makedepends=(unzip imagemagick icoutils)
+source=(Chummer4.desktop chummer4 http://www.chummergen.com/dev/chummer/Chummer.zip)
+noextract=()
+options=(!strip)
+
+sha256sums=('8f4d5e1116e0534f864750386c512073c71e566c4cf1afb8a751c8911b713fb3'
+            '8a88d78d440e1f890470b981baf28443f0a7c94d546d8d470dbabd97602dd3ba'
+            'f288c725858ef0ce9cbbd4055b16ffc408188b2809717fd82a3f25cf60aec947')
+
+package() {
+
+  install -d -m755 ${pkgdir}/usr/share/applications
+  install -d -m755 ${pkgdir}/usr/share/chummer4
+  install -d -m755 ${pkgdir}/usr/bin
+
+  rm ${srcdir}/Chummer.zip || true  # Remove extra zip file from the archive
+  wrestool -x -t 14 ${srcdir}/Chummer.exe > ${srcdir}/Chummer.ico
+  convert ${srcdir}/'Chummer.ico[4]' ${pkgdir}/usr/share/chummer4/Chummer.png
+  rm ${srcdir}/Chummer.ico
+  install -m755 chummer4 ${pkgdir}/usr/bin
+  cp -ra ${srcdir}/* ${pkgdir}/usr/share/chummer4
+  cp ${srcdir}/Chummer4.desktop ${pkgdir}/usr/share/applications
+
+}

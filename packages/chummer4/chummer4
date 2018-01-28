@@ -1,0 +1,11 @@
+#!/bin/bash
+
+export WINEPREFIX="$HOME/.chummer4/wine"
+
+if [ ! -d "$HOME"/.chummer4 ]; then
+  echo "Installing .NET 4.0..."
+  winetricks -q dotnet40
+fi
+
+cd "$HOME"
+exec wine /usr/share/chummer4/Chummer.exe
