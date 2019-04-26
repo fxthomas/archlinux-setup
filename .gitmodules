@@ -4,3 +4,6 @@
 [submodule "packages/wd719x-firmware"]
 	path = packages/wd719x-firmware
 	url = https://aur.archlinux.org/wd719x-firmware.git
+[submodule "packages/gnome-shell-extension-system-monitor-git"]
+	path = packages/gnome-shell-extension-system-monitor-git
+	url = https://aur.archlinux.org/gnome-shell-extension-system-monitor-git.git
