@@ -1,6 +1,6 @@
 pkgname=libzbxpgsql
-pkgver=1.0.0
-pkgrel=2
+pkgver=1.1.0
+pkgrel=1
 pkgdesc="PostgreSQL monitoring for Zabbix"
 arch=('i686' 'x86_64')
 url="http://cavaliercoder.com/libzbxpgsql"
@@ -27,5 +27,5 @@ package() {
 	make DESTDIR=$pkgdir install
 }
 
-md5sums=('3eaa21606b0a9470cacfb976f1efdb9c')
-sha1sums=('4f8f66668d1ae9cbf8c2e1aef91cf21221b1912c')
+md5sums=('9947efb50db94f3e01cbf742d37283f0')
+sha1sums=('0483a7b2664c9ae7ac99e420108b8bb152aaad80')
