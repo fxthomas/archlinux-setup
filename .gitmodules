@@ -7,3 +7,54 @@
 [submodule "packages/gnome-shell-extension-system-monitor-git"]
 	path = packages/gnome-shell-extension-system-monitor-git
 	url = https://aur.archlinux.org/gnome-shell-extension-system-monitor-git.git
+[submodule "packages/artha"]
+	path = packages/artha
+	url = https://aur.archlinux.org/artha.git
+[submodule "packages/wordnet"]
+	path = packages/wordnet
+	url = https://aur.archlinux.org/wordnet.git
+[submodule "packages/mozc"]
+	path = packages/mozc
+	url = https://aur.archlinux.org/mozc.git
+[submodule "packages/bitwig-studio"]
+	path = packages/bitwig-studio
+	url = https://aur.archlinux.org/bitwig-studio.git
+[submodule "packages/dropbox"]
+	path = packages/dropbox
+	url = https://aur.archlinux.org/dropbox.git
+[submodule "packages/joplin"]
+	path = packages/joplin
+	url = https://aur.archlinux.org/joplin.git
+[submodule "packages/ckbcomp"]
+	path = packages/ckbcomp
+	url = https://aur.archlinux.org/ckbcomp.git
+[submodule "packages/dxvk-bin"]
+	path = packages/dxvk-bin
+	url = https://aur.archlinux.org/dxvk-bin.git
+[submodule "packages/meshroom"]
+	path = packages/meshroom
+	url = https://aur.archlinux.org/meshroom.git
+[submodule "packages/alice-vision"]
+	path = packages/alice-vision
+	url = https://aur.archlinux.org/alice-vision.git
+[submodule "packages/coin-or-lemon"]
+	path = packages/coin-or-lemon
+	url = https://aur.archlinux.org/coin-or-lemon.git
+[submodule "packages/popsift"]
+	path = packages/popsift
+	url = https://aur.archlinux.org/popsift.git
+[submodule "packages/uncertainty-framework"]
+	path = packages/uncertainty-framework
+	url = https://aur.archlinux.org/uncertainty-framework.git
+[submodule "packages/ceres-solver"]
+	path = packages/ceres-solver
+	url = https://aur.archlinux.org/ceres-solver.git
+[submodule "packages/flann"]
+	path = packages/flann
+	url = https://aur.archlinux.org/flann.git
+[submodule "packages/geogram"]
+	path = packages/geogram
+	url = https://aur.archlinux.org/geogram.git
+[submodule "packages/opengv-git"]
+	path = packages/opengv-git
+	url = https://aur.archlinux.org/opengv-git.git
