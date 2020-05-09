@@ -16,9 +16,6 @@
 [submodule "packages/mozc"]
 	path = packages/mozc
 	url = https://aur.archlinux.org/mozc.git
-[submodule "packages/bitwig-studio"]
-	path = packages/bitwig-studio
-	url = https://aur.archlinux.org/bitwig-studio.git
 [submodule "packages/dropbox"]
 	path = packages/dropbox
 	url = https://aur.archlinux.org/dropbox.git
