@@ -50,7 +50,7 @@ sha256sums=('SKIP'
 prepare() {
   cd MuseScore
   git cherry-pick -n 63d8b7ee90e9ec6604e334a3ebb12fced7fab36d
-  patch --directory="$pkgname-$pkgver" --forward --strip=1 --input="${srcdir}/fix-noteentry-8th-realtime.patch"
+  git apply "${srcdir}/fix-noteentry-8th-realtime.patch"
 }
 
 pkgver() {
