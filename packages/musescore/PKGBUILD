@@ -44,7 +44,8 @@ source=(
   git+https://github.com/musescore/MuseScore.git#tag=${_tag}
   fix-noteentry-8th-realtime.patch
   )
-sha256sums=(SKIP '')
+sha256sums=('SKIP'
+            '243477ee1d9c6f5560b1362afc1834d1cb3974a9c3dad951a232601c12c63dc0')
 
 prepare() {
   cd MuseScore
