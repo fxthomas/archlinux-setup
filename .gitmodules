@@ -55,3 +55,21 @@
 [submodule "packages/opengv-git"]
 	path = packages/opengv-git
 	url = https://aur.archlinux.org/opengv-git.git
+[submodule "packages/meshroom-bin"]
+	path = packages/meshroom-bin
+	url = https://aur.archlinux.org/meshroom-bin.git
+[submodule "packages/qownnotes"]
+	path = packages/qownnotes
+	url = https://aur.archlinux.org/qownnotes.git
+[submodule "packages/sooperlooper"]
+	path = packages/sooperlooper
+	url = https://aur.archlinux.org/sooperlooper.git
+[submodule "packages/audiveris"]
+	path = packages/audiveris
+	url = https://aur.archlinux.org/audiveris.git
+[submodule "packages/tegaki-recognize"]
+	path = packages/tegaki-recognize
+	url = https://aur.archlinux.org/tegaki-recognize.git
+[submodule "packages/yay"]
+	path = packages/yay
+	url = https://aur.archlinux.org/yay.git
